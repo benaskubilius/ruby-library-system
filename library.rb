@@ -6,6 +6,22 @@ USER_FILE = './storage/users.db'
 BORROWED_BOOKS_FILE = './storage/borrowed_books.db'
 BOOKS_FILE = './storage/books.csv'
 
+class Book
+  attr_accessor :id, :title, :author, :release_date, :copies_count
+
+  def initialize(id, title, author, release_date, copies_count)
+    @id = id
+    @title = title
+    @author = author
+    @release_date = release_date
+    @copies_count = copies_count
+  end
+
+  def display_to_string
+    "#{id} | #{title} | #{author} | #{release_date} | #{copies_count}\n"
+  end
+
+end
 
 class User
   attr_accessor :username, :password
@@ -39,6 +55,16 @@ def add_user(new_user)
   File.write(USER_FILE, new_user.to_string, mode: 'a')
 end
 
+def list_available_books
+  books = []
+  CSV.foreach(BOOKS_FILE, headers: true) do |row|
+    books.push Book.new(row[0], row[1], row[2], row[3], row[4].to_i)
+  end
+
+  books.reject do |book|
+    book.copies_count == 0
+  end
+end
 
 puts 'Library System initialized'
 puts 'Enter your username:'
@@ -72,3 +98,25 @@ else
   end
 end
 
+action = 0
+while action != 4
+  puts "\n"
+  puts 'Select action'
+  puts '1 - List available books'
+  puts '2 - Borrow a book'
+  puts '3 - Return a book'
+  puts '4 - Exit'
+  puts "\n"
+  action = gets.chomp
+
+  case action
+  when '1'
+    puts 'ID | Title | Author | Release date | Available copies'
+    list_available_books.each { |book| puts book.display_to_string }
+  when '4'
+    puts 'Exiting...'
+    abort
+  else
+    puts 'Please select valid action'
+  end
+end
