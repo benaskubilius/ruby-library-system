@@ -7,6 +7,7 @@ require_relative './models/user'
 require_relative './constants/global_constants'
 require_relative './services/list_books_service'
 require_relative './services/borrow_service'
+require_relative './services/return_service'
 require_relative './services/user_service'
 
 puts 'Library System initialized'
@@ -64,6 +65,11 @@ while action != 4
       requested_book_id = gets.chomp
       borrow_service = BorrowService.new
       borrow_service.borrow_book(requested_book_id, username)
+    when '3'
+      puts 'Please write book ID you want to return'
+      returned_book_id = gets.chomp
+      return_service = ReturnService.new
+      return_service.return_book(returned_book_id, username)
     when '4'
       puts 'Exiting...'
       abort
@@ -72,6 +78,8 @@ while action != 4
     end
 
   rescue NoAvailableBookException => e
+    puts e.message
+  rescue NoBorrowedBookException => e
     puts e.message
   rescue => e
     e.message
