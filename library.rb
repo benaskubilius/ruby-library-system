@@ -2,6 +2,7 @@
 
 require 'csv'
 require 'date'
+require 'table_print'
 require_relative './models/book'
 require_relative './models/user'
 require_relative './constants/global_constants'
@@ -57,9 +58,8 @@ while action != 4
   begin
     case action
     when '1'
-      puts 'ID | Title | Author | Release date | Available copies'
       list_books_service = ListBooksService.new
-      list_books_service.list_available_books.each { |book| puts book.display_to_string }
+      tp list_books_service.list_available_books, :except => :display_to_string
     when '2'
       puts 'Please write book ID you want to borrow'
       requested_book_id = gets.chomp
