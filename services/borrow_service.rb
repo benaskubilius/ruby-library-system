@@ -7,6 +7,7 @@ require_relative '../exceptions/no_available_book_exception'
 
 class BorrowService
   def borrow_book(id, username)
+    id = id.to_s
     check_book_availability(id)
     File.write(BORROWED_BOOKS_FILE, "#{id},#{username},#{Time.now.strftime('%Y-%m-%d')}\n", mode: 'a')
     csv_update_service = CsvUpdateService.new

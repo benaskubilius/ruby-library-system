@@ -22,4 +22,8 @@ class UserService
   def add_user(new_user)
     @user_repo.add_user(new_user)
   end
+
+  def remove_user(username)
+    @user_repo.remove_user(username)
+  end
 end

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'csv'
 require_relative '../constants/global_constants'
 require_relative '../enums/copies_count_action'
 
@@ -10,8 +11,8 @@ class CsvUpdateService
     founded_book = find_update_needed_book(all_books, id)
     update_copies_count(founded_book, action)
 
-    CSV.open(BOOKS_FILE, 'wb') do |csv|
-      csv << %w[id,title,author,release_date,copies]
+    CSV.open(BOOKS_FILE, 'wb', force_quotes: false) do |csv|
+      csv << %w[id title author release_date copies]
       all_books.each do |book|
         csv << [book.id, book.title, book.author, book.release_date, book.copies_count]
       end

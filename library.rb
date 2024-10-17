@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'csv'
-require 'date'
 require 'table_print'
 require_relative './models/book'
 require_relative './models/user'

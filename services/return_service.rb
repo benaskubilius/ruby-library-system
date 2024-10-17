@@ -9,6 +9,7 @@ require_relative '../exceptions/no_borrowed_book_exception'
 class ReturnService
 
   def return_book(id, username)
+    id = id.to_s
     check_is_book_borrowed(id, username)
     line_to_delete = "#{id},#{username}"
     rejected_line = nil

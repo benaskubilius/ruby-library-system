@@ -23,6 +23,10 @@ class UserRepository
     @db.execute "INSERT INTO users (username, password) VALUES (?, ?)", [new_user.username, new_user.password]
   end
 
+  def remove_user(username)
+    @db.execute "DELETE FROM users WHERE username = ?", [username]
+  end
+
   def close
     if @db
       @db.close
